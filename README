@@ -1,0 +1,79 @@
+# Qingshuijiang forest tenure: reproducibility materials
+
+Materials for the manuscript **Future benefits and conditional control in forest tenure: Forest contracts from Qingshuijiang, China, 1748–1950**.
+
+The materials support two components of the study. The R workflow documents screening and analysis of 148 unique texts. The V9 evidence table documents the selected clause readings in Section 5.7 and manuscript Table 5.
+
+## Start here
+
+| File | Purpose |
+| --- | --- |
+| [Qingshuijiang_Forestry_Semantic_Corpus.xlsx](Qingshuijiang_Forestry_Semantic_Corpus.xlsx) | Input workbook; the R workflow reads the `Forest_Documents` sheet. Other sheets preserve earlier project work. |
+| [Qingshuijiang_FPE_Strict_Relational_Sensitivity_v2_2_final.R](Qingshuijiang_FPE_Strict_Relational_Sensitivity_v2_2_final.R) | R workflow used for the archived 148-text analysis. The screening dictionary is defined in the script, and the strict case assignments incorporate contextual decisions. |
+| [Qingshuijiang_FPE_strict_v2.zip](Qingshuijiang_FPE_strict_v2.zip) | Archived outputs: S0–S6, period tests, figure files, results workbook and R session information. Unzip to inspect individual files. |
+| [V9 Table 5 clause evidence](v9_evidence/Table_5_clause_evidence.csv) | Seven source-located documentary records: five establishment texts and two harvest-reversion cases. Includes short excerpts, working English translations and interpretation limits. |
+| [Qingshuijiang_FPE_results.zip](Qingshuijiang_FPE_results.zip) | Earlier exploratory output archive. For the manuscript’s reported corpus results, use the strict-analysis archive above. |
+
+The repository also retains manually prepared Word transcriptions from the two published volumes. The V9 update adds the source-located case table without changing the existing R workflow, corpus workbook or archived output. The baseline repository commit for this update was `9c7af6c9e424b74605202407dc5be6b83ad24a7f`.
+
+## Sources and analytical sample
+
+- Zhang, Y. and Wang, Z. (eds.), 2011. *清水江文书 第3辑 [Qingshuijiang Documents, Series 3]*, 10 vols. Guangxi Normal University Press, Guilin. Working source: vol. 1. Set ISBN 978-7-5495-0444-2.
+- Zhang, X. (ed.), 2014. *天柱文书 第1辑 [Tianzhu Documents, Series 1]*, 22 vols. Jiangsu People’s Publishing House, Nanjing. Working source: vol. 21. Set ISBN 978-7-214-10645-2.
+
+Of the 192 screened records, 23 are index/list-like, 14 lack a usable year, and 6 are copied-inscription records outside the study period. The main-study flag retains 149 records. Tianzhu item 76 is excluded after confirming that its normalised body text duplicates item 74, leaving **148 texts, 1748–1950** (136 Qingshuijiang and 12 Tianzhu). These are texts selected from two volumes, not a probability sample of past transactions.
+
+## Run the 148-text analysis
+
+1. Download the R script and Excel workbook above. Open the script in **RStudio**.
+2. Install the dependencies if needed:
+
+   ```r
+   install.packages(c("readxl", "dplyr", "tidyr", "stringr", "purrr",
+                      "ggplot2", "igraph", "ggraph", "openxlsx", "scales"))
+   ```
+
+3. Run the script in RStudio and select `Qingshuijiang_Forestry_Semantic_Corpus.xlsx` when the file picker opens. The script uses a fixed seed and writes to `Qingshuijiang_FPE_strict_v2/` next to the selected workbook. Run against a local copy in a writable directory.
+4. Compare the new files with the archived outputs. The archived `sessionInfo.txt` records R 4.6.1 on Windows and the original package versions. Plot rendering and random sampling may depend on the software environment.
+
+The original decisions assigning documents to the strict cases are stored in the script. Running the workflow recomputes the aggregate results from those assignments; it does not automatically adjudicate the historical clauses.
+
+### Supplementary tables inside the strict-analysis ZIP
+
+| Table | Filename | Contents |
+| --- | --- | --- |
+| S0 | `Table_S0_duplicate_verification.csv` | Verification of the identical Tianzhu continuation |
+| S1 | `Table_S1_selection_flow.csv` | Record selection and exclusions |
+| S2 | `Table_S2_strict_adjudication.csv` | Contextual adjudication, including two comparison records |
+| S3 | `Table_S3_broad_vs_strict_sensitivity.csv` | Broad screening versus strict case counts |
+| S4 | `Table_S4_negative_control_audit.csv` | Audit of records that screened negative |
+| S5 | `Table_S5_document_index.csv` | 149-record index, with the excluded continuation flagged |
+| S6 | `Table_S6_strict_set_overlap.csv` | Overlap among the strict case sets |
+
+The screening counts are 45 layered, 17 labour and 10 temporal candidates. The contextual coding identifies 7 layered, 8 labour-linked and 2 harvest-triggered cases; the sets overlap and contain 9 unique texts. These counts do not establish historical prevalence.
+
+`Test_01_period_KruskalWallis.txt` reports the four-period comparison for the full corpus (H = 4.4067, df = 3, p = .2208) and for sales alone (H = 4.3086, df = 3, p = .2300). `Table_02_period_sensitivity.csv` and `Table_03_sales_only_period_sensitivity.csv` contain the group summaries. A non-significant comparison does not establish institutional stability.
+
+### Match the manuscript figures
+
+| Manuscript figure | File inside the strict-analysis ZIP |
+| --- | --- |
+| 1 | `Figure_01_resource_object_relation_heatmap.png` |
+| 2 | `Figure_02_entitlement_markers.png` |
+| 3 | `Figure_03_refined_relation_network.png` |
+| 4 | `Figure_04_transaction_relation_heatmap.png` |
+| 5 | `Figure_06_relation_marker_count_by_period.png` |
+
+The archive also contains `Figure_05_period_dotplot.png`, which is not a numbered figure in V9.
+
+## Read the V9 case evidence
+
+The [case CSV](v9_evidence/Table_5_clause_evidence.csv) follows the row order of manuscript Table 5. Use `workbook_key` to identify the record in the corpus index and `facsimile_identifier` and `printed_page` to locate it in the published volume. `project_pdf_page` refers to the research copy; use the printed page when consulting another copy. Short excerpts have editorial punctuation; an ellipsis marks omitted wording. The translations are supplied for reading the selected provisions in context.
+
+- **1835 and 1849:** the clauses specify distinct establishment conditions and permit the landholder to recruit another planter if the respective condition is unmet. The cited wording does not specify forfeiture of the first planter’s share.
+- **1916:** the texts specify shares and establishment deadlines. The response to non-completion is unresolved. III-229 and III-230 are closely related texts and are not counted as two independent instances in this comparison.
+- **1821 and 1828:** these reproduce the harvest-triggered land-reversion cases already identified in the original workflow.
+
+The evidence table is a purposive comparison. It provides neither a corpus-wide recoding of these provisions nor an independent inter-coder reliability result. An unresolved field is not a verified absence. The written clauses establish the provisions at issue, not that a provision was exercised or that it had a particular outcome.
+
+The update does not include facsimile images or complete published volumes. Cite the published documentary collections for the source texts and the manuscript and repository for the analysis.
